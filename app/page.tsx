@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import DemoPlayground from '@/components/landing/DemoPlayground';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 import { clsx } from 'clsx';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 
@@ -65,6 +66,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-grid opacity-[0.2] pointer-events-none" />
         {/* Ambient Glow */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-brand-primary/10 to-transparent rounded-full blur-3xl pointer-events-none" />
+        <BackgroundBeams className="opacity-30" />
         
         <div className="max-w-[1400px] mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -198,7 +200,8 @@ export default function HomePage() {
 
       {/* Parallax: Feature Breakdown */}
       <section className="py-32 relative overflow-hidden">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <BackgroundBeams className="opacity-15" />
+        <div className="max-w-[1400px] mx-auto px-6 relative z-10">
           <div className="mb-24">
             <h2 className="text-4xl md:text-5xl font-headings font-bold text-white mb-6">Built for speed.</h2>
             <p className="text-xl text-surface-muted max-w-2xl font-light">Scheduled. Shipped. Done. Every interaction is designed to save you time and maximize reach.</p>
@@ -349,8 +352,9 @@ export default function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-32 px-6 relative">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-32 px-6 relative overflow-hidden">
+        <BackgroundBeams className="opacity-15" />
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-headings font-bold text-white mb-4">Simple, transparent pricing.</h2>
             <p className="text-surface-muted mb-8">No hidden fees. 7-day free trial on all plans.</p>

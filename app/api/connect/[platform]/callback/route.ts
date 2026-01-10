@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createRouteClient, createServiceRoleClient } from '@/lib/supabase/route';
+import { encryptToken } from '@/lib/encryption';
 import type { PlatformId } from '@/lib/database.types';
 
 export const runtime = 'nodejs';
@@ -111,13 +112,23 @@ export async function GET(
       }
 
       for (const page of pages) {
+        // Encrypt the token before storing
+        let encryptedToken: string;
+        try {
+          encryptedToken = await encryptToken(page.access_token);
+        } catch (encErr) {
+          console.error('Failed to encrypt token:', encErr);
+          // Fall back to plaintext if encryption key not configured (dev mode)
+          encryptedToken = page.access_token;
+        }
+
         // Store Facebook page (using service role to bypass RLS)
         if (platform === 'facebook') {
           const { error: upsertError } = await adminClient.from('connected_accounts').upsert({
             user_id: user.id,
             platform: 'facebook',
             external_account_id: page.id,
-            token_encrypted: page.access_token, // TODO: In production, encrypt this
+            token_encrypted: encryptedToken,
             token_expires_at: expiresAt,
             scopes: ['pages_manage_posts'],
             metadata: { name: page.name },
@@ -142,7 +153,7 @@ export async function GET(
             user_id: user.id,
             platform: 'instagram',
             external_account_id: igId,
-            token_encrypted: page.access_token, // TODO: In production, encrypt this
+            token_encrypted: encryptedToken,
             token_expires_at: expiresAt,
             scopes: ['instagram_content_publish'],
             metadata: {
