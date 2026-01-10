@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Upload, Sparkles, Check, Clock, Send, ChevronRight, Play, Zap, Calendar } from 'lucide-react';
+import { Upload, Sparkles, Check, Clock, ChevronRight, Play, Zap, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const platforms = [

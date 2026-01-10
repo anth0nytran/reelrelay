@@ -1,13 +1,13 @@
 'use client';
 
-import { Cloud, Calendar, BarChart3, Users, Sparkles, Play, Globe, Zap } from 'lucide-react';
+import { Cloud, Calendar, BarChart3, Users, Sparkles, Play, Zap } from 'lucide-react';
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import DemoPlayground from '@/components/landing/DemoPlayground';
 import { BackgroundBeams } from '@/components/ui/background-beams';
 import { clsx } from 'clsx';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 // Icons as components for cleaner usage
 const Icons = {
@@ -30,9 +30,6 @@ const Icons = {
 
 export default function HomePage() {
   const [isAnnual, setIsAnnual] = useState(false);
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 100]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
 
   return (
     <div className="min-h-screen bg-surface text-white selection:bg-brand-primary/30 font-sans overflow-x-hidden">
@@ -269,7 +266,7 @@ export default function HomePage() {
                                <Sparkles className="w-3 h-3 text-brand-primary" />
                              </div>
                              <p className="text-[10px] text-surface-muted leading-relaxed line-clamp-3">
-                               <span className="text-white">"Write captions in a crisp, confident tone..."</span> 🚀 Video-first and conversion-oriented. <span className="text-brand-primary">#ReelRelay</span>
+                               <span className="text-white">&ldquo;Write captions in a crisp, confident tone...&rdquo;</span> 🚀 Video-first and conversion-oriented. <span className="text-brand-primary">#ReelRelay</span>
                              </p>
                            </div>
                          </div>

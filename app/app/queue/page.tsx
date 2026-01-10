@@ -4,20 +4,14 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { format, isToday, isTomorrow, isPast } from 'date-fns';
 import {
-  Clock,
   Video,
   Loader2,
-  Check,
-  AlertCircle,
   Plus,
   ArrowRight,
   RefreshCw,
   Instagram,
   Facebook,
   CalendarDays,
-  MoreHorizontal,
-  Pause,
-  X,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Post, PlatformId } from '@/lib/database.types';
