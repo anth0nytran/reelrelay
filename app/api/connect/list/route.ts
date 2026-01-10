@@ -4,6 +4,7 @@ import { PLATFORM_IDS } from '@/lib/platform/registry';
 import type { ConnectionStatus } from '@/lib/database.types';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   const { supabase, response } = createRouteClient(request);

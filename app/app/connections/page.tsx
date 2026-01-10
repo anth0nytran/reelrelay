@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -37,6 +37,25 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export default function ConnectionsPage() {
+  return (
+    <Suspense fallback={<ConnectionsFallback />}>
+      <ConnectionsContent />
+    </Suspense>
+  );
+}
+
+function ConnectionsFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="text-center">
+        <Loader2 className="w-10 h-10 animate-spin text-brand-primary mx-auto mb-4" />
+        <p className="text-surface-muted font-medium">Loading connections...</p>
+      </div>
+    </div>
+  );
+}
+
+function ConnectionsContent() {
   const [connections, setConnections] = useState<ConnectionStatus[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import type { PlatformId } from '@/lib/database.types';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const DisconnectSchema = z.object({
   accountId: z.string().uuid().optional(),

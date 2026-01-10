@@ -4,6 +4,7 @@ import type { PlatformId } from '@/lib/database.types';
 import { randomUUID } from 'crypto';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const META_APP_ID = process.env.META_APP_ID;
 const NEXT_PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';

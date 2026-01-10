@@ -4,6 +4,7 @@ import { z } from 'zod';
 import type { PlatformId } from '@/lib/database.types';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const RetrySchema = z.object({
   platforms: z.array(z.string()).optional(),

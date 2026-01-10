@@ -3,6 +3,7 @@ import { createRouteClient, jsonWithCookies } from '@/lib/supabase/route';
 import { z } from 'zod';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const CompleteUploadSchema = z.object({
   r2Key: z.string().min(1),

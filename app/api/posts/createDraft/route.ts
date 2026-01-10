@@ -3,6 +3,7 @@ import { createRouteClient, jsonWithCookies } from '@/lib/supabase/route';
 import { z } from 'zod';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const CreateDraftSchema = z.object({
   assetId: z.string().uuid(),

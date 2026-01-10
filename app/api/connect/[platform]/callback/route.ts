@@ -4,6 +4,7 @@ import { encryptToken } from '@/lib/encryption';
 import type { PlatformId } from '@/lib/database.types';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const META_APP_ID = process.env.META_APP_ID;
 const META_APP_SECRET = process.env.META_APP_SECRET;

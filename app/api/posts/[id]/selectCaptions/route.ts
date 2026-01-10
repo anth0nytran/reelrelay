@@ -5,6 +5,7 @@ import type { PlatformId } from '@/lib/database.types';
 import { PLATFORM_IDS } from '@/lib/platform/registry';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const SelectCaptionsSchema = z.object({
   selections: z.record(z.string()),

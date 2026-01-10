@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { randomUUID } from 'crypto';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 const PresignSchema = z.object({
   filename: z.string().min(1),
