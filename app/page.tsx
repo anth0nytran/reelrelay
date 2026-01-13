@@ -167,6 +167,58 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* How It Works */}
+      <section id="how-it-works" className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid opacity-[0.3] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-brand-primary/5 to-transparent rounded-full blur-[80px] pointer-events-none" />
+        
+        <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-20"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-surface-border bg-surface-card/50 text-[11px] font-semibold text-surface-muted mb-6 uppercase tracking-wider">
+              Simple Process
+            </div>
+            <h2 className="text-4xl md:text-5xl font-headings font-bold text-white mb-6">How it works</h2>
+            <p className="text-xl text-surface-muted font-light max-w-2xl mx-auto">Three simple steps to automate your entire social media workflow. From upload to published in minutes.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connection Line */}
+            <div className="hidden md:block absolute top-24 left-[16.67%] right-[16.67%] h-px bg-gradient-to-r from-transparent via-surface-border to-transparent" />
+            <div className="hidden md:block absolute top-24 left-[16.67%] right-[16.67%] h-px">
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/0 via-brand-primary/50 to-brand-primary/0 animate-pulse" />
+            </div>
+
+            <HowItWorksStep 
+              step={1}
+              title="Upload Your Video"
+              description="Drop your video file and we'll handle the rest. We support all major formats and automatically optimize for each platform."
+              icon={<Cloud className="w-7 h-7" />}
+              delay={0}
+            />
+            <HowItWorksStep 
+              step={2}
+              title="AI Writes Captions"
+              description="Our AI analyzes your content and generates viral-optimized captions, hashtags, and descriptions for every platform."
+              icon={<Sparkles className="w-7 h-7" />}
+              delay={0.15}
+            />
+            <HowItWorksStep 
+              step={3}
+              title="Publish Everywhere"
+              description="Schedule or publish instantly to Instagram, TikTok, YouTube, LinkedIn, and Facebook—all from one click."
+              icon={<Zap className="w-7 h-7" />}
+              delay={0.3}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Parallax: Feature Breakdown */}
       <section id="features" className="py-32 relative overflow-hidden">
         <BackgroundBeams className="opacity-10" />
@@ -254,37 +306,60 @@ export default function HomePage() {
               title="Universal reach."
               desc="Don't limit your content to one feed. We reformat and optimize your video for Reels, TikTok, Shorts, and LinkedIn automatically."
               visual={
-                <div className="relative w-full aspect-[16/10] rounded-3xl bg-surface-card border border-surface-border overflow-hidden flex items-center justify-center p-12 group shadow-2xl">
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.05),transparent_70%)]" />
-                  <div className="absolute inset-0 bg-grid opacity-20" />
+                <div className="relative w-full aspect-[16/10] rounded-3xl bg-surface-card border border-surface-border overflow-hidden flex items-center justify-center group shadow-2xl">
+                  {/* Background Effects */}
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(37,99,235,0.08),transparent_60%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px]" />
                   
-                  {/* Center Hub */}
-                  <div className="relative z-10 w-24 h-24 bg-surface rounded-2xl border border-surface-border shadow-[0_0_50px_rgba(37,99,235,0.15)] flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                    <div className="absolute inset-0 bg-brand-primary/10 rounded-2xl animate-pulse" />
-                    <Zap className="w-10 h-10 text-brand-primary" />
+                  {/* Animated Orbit Rings */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-[280px] h-[280px] rounded-full border border-dashed border-surface-border/30 animate-[spin_40s_linear_infinite]" />
+                    <div className="absolute w-[180px] h-[180px] rounded-full border border-dashed border-surface-border/20 animate-[spin_25s_linear_infinite_reverse]" />
                   </div>
 
-                  {/* Platform Satellites */}
-                  <div className="absolute top-[20%] left-[20%] w-16 h-16 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 cursor-default">
+                  {/* Center Hub */}
+                  <div className="relative z-20 w-20 h-20 bg-gradient-to-br from-brand-primary to-blue-600 rounded-2xl shadow-[0_0_60px_rgba(37,99,235,0.4)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <div className="absolute inset-0 rounded-2xl bg-brand-primary/30 animate-ping" style={{ animationDuration: '2s' }} />
+                    <Zap className="w-9 h-9 text-white drop-shadow-lg" />
+                  </div>
+
+                  {/* Platform Satellites - Orbital Layout */}
+                  <div className="absolute top-[12%] left-1/2 -translate-x-1/2 w-14 h-14 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:-translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 hover:shadow-brand-primary/20 hover:shadow-xl">
                      <Icons.TikTok />
                   </div>
-                  <div className="absolute top-[20%] right-[20%] w-16 h-16 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 cursor-default">
+                  <div className="absolute top-[35%] right-[10%] w-14 h-14 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:translate-x-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 hover:shadow-brand-primary/20 hover:shadow-xl">
                      <Icons.Instagram />
                   </div>
-                  <div className="absolute bottom-[20%] left-[20%] w-16 h-16 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 cursor-default">
+                  <div className="absolute bottom-[12%] right-[25%] w-14 h-14 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 hover:shadow-brand-primary/20 hover:shadow-xl">
                      <Icons.Youtube />
                   </div>
-                  <div className="absolute bottom-[20%] right-[20%] w-16 h-16 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:-translate-x-2 group-hover:-translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 cursor-default">
+                  <div className="absolute bottom-[12%] left-[25%] w-14 h-14 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:translate-y-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 hover:shadow-brand-primary/20 hover:shadow-xl">
                      <Icons.LinkedIn />
                   </div>
+                  <div className="absolute top-[35%] left-[10%] w-14 h-14 bg-surface rounded-xl border border-surface-border flex items-center justify-center shadow-lg group-hover:-translate-x-2 transition-transform duration-500 z-10 hover:border-brand-primary/50 hover:shadow-brand-primary/20 hover:shadow-xl">
+                     <Icons.Facebook />
+                  </div>
                   
-                  {/* Connecting Lines (Simulated) */}
-                  <svg className="absolute inset-0 pointer-events-none opacity-20" width="100%" height="100%">
-                    <line x1="50%" y1="50%" x2="20%" y2="20%" stroke="white" strokeDasharray="4 4" />
-                    <line x1="50%" y1="50%" x2="80%" y2="20%" stroke="white" strokeDasharray="4 4" />
-                    <line x1="50%" y1="50%" x2="20%" y2="80%" stroke="white" strokeDasharray="4 4" />
-                    <line x1="50%" y1="50%" x2="80%" y2="80%" stroke="white" strokeDasharray="4 4" />
+                  {/* Connecting Lines */}
+                  <svg className="absolute inset-0 pointer-events-none z-0" width="100%" height="100%">
+                    <defs>
+                      <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="rgba(37,99,235,0.4)" />
+                        <stop offset="100%" stopColor="rgba(37,99,235,0.1)" />
+                      </linearGradient>
+                    </defs>
+                    {/* Lines from center to each platform */}
+                    <line x1="50%" y1="50%" x2="50%" y2="18%" stroke="url(#lineGradient)" strokeWidth="1" strokeDasharray="4 4" className="opacity-60" />
+                    <line x1="50%" y1="50%" x2="85%" y2="40%" stroke="url(#lineGradient)" strokeWidth="1" strokeDasharray="4 4" className="opacity-60" />
+                    <line x1="50%" y1="50%" x2="70%" y2="85%" stroke="url(#lineGradient)" strokeWidth="1" strokeDasharray="4 4" className="opacity-60" />
+                    <line x1="50%" y1="50%" x2="30%" y2="85%" stroke="url(#lineGradient)" strokeWidth="1" strokeDasharray="4 4" className="opacity-60" />
+                    <line x1="50%" y1="50%" x2="15%" y2="40%" stroke="url(#lineGradient)" strokeWidth="1" strokeDasharray="4 4" className="opacity-60" />
                   </svg>
+
+                  {/* Floating Label */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-surface/80 backdrop-blur-sm rounded-full border border-surface-border text-[11px] font-medium text-surface-muted z-20">
+                    <span className="text-brand-primary">5 platforms</span> • One click
+                  </div>
                 </div>
               }
             />
@@ -455,5 +530,46 @@ function PricingFeature({ text, subtext }: { text: string, subtext?: string }) {
         {subtext && <div className="text-xs text-surface-muted mt-0.5 group-hover:text-surface-muted/80 transition-colors">{subtext}</div>}
       </div>
     </div>
+  );
+}
+
+function HowItWorksStep({ step, title, description, icon, delay }: { step: number, title: string, description: string, icon: React.ReactNode, delay: number }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay }}
+      className="relative group"
+    >
+      {/* Step Card */}
+      <div className="relative bg-surface-card/40 backdrop-blur-sm rounded-3xl border border-surface-border p-8 pt-16 hover:border-surface-muted/50 transition-all duration-500 hover:shadow-2xl hover:shadow-brand-primary/5 h-full">
+        {/* Glow Effect */}
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-brand-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
+        {/* Step Number Badge */}
+        <div className="absolute -top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="relative">
+            {/* Outer Ring */}
+            <div className="w-20 h-20 rounded-full bg-surface border-2 border-surface-border flex items-center justify-center shadow-xl group-hover:border-brand-primary/30 transition-colors duration-500">
+              {/* Inner Icon Container */}
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-primary/20 to-brand-primary/5 border border-brand-primary/20 flex items-center justify-center text-brand-primary group-hover:scale-110 transition-transform duration-500">
+                {icon}
+              </div>
+            </div>
+            {/* Step Number */}
+            <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shadow-lg shadow-brand-primary/30 border-2 border-surface">
+              {step}
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center">
+          <h3 className="font-headings font-bold text-xl text-white mb-4 tracking-tight">{title}</h3>
+          <p className="text-sm text-surface-muted leading-relaxed font-light">{description}</p>
+        </div>
+      </div>
+    </motion.div>
   );
 }
