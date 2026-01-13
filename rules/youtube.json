@@ -1,0 +1,59 @@
+{
+  "platform": "youtube",
+  "displayName": "YouTube",
+  "caption": {
+    "titleMaxChars": 100,
+    "titleRecommendedChars": 60,
+    "descriptionMaxChars": 5000,
+    "descriptionRecommendedChars": 200,
+    "supportsHashtags": true,
+    "recommendedHashtagCount": 3,
+    "maxHashtags": 15,
+    "supportsTags": true,
+    "maxTags": 500
+  },
+  "video": {
+    "supportedFormats": ["mp4", "mov", "avi", "wmv", "webm", "mkv"],
+    "minDurationShorts": 0,
+    "maxDurationShorts": 60,
+    "minDurationRegular": 1,
+    "maxDurationRegular": 43200,
+    "maxFileSize": "256GB",
+    "shortsAspectRatio": "9:16",
+    "regularAspectRatios": ["16:9", "4:3"],
+    "minResolution": "426x240",
+    "maxResolution": "7680x4320",
+    "frameRateRange": [24, 60],
+    "codecsSupported": ["H.264", "HEVC", "VP8", "VP9", "AV1"]
+  },
+  "tone": {
+    "style": "engaging, value-driven, searchable",
+    "guidance": "Front-load keywords in title, use timestamps in description, include strong CTA, optimize for search",
+    "avoidPatterns": ["misleading titles", "excessive caps in title", "keyword stuffing"],
+    "hashtagPlacement": "title (max 3) and description"
+  },
+  "features": {
+    "supportsShorts": true,
+    "supportsRegularVideos": true,
+    "supportsLiveStreams": false,
+    "supportsThumbnails": true,
+    "supportsPlaylists": false,
+    "requiresChannel": true
+  },
+  "api": {
+    "baseUrl": "https://www.googleapis.com/youtube/v3",
+    "uploadUrl": "https://www.googleapis.com/upload/youtube/v3/videos",
+    "authUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+    "tokenUrl": "https://oauth2.googleapis.com/token",
+    "tokenExpiryHours": 1,
+    "refreshTokenNoExpiry": true,
+    "scopes": [
+      "https://www.googleapis.com/auth/youtube.upload",
+      "https://www.googleapis.com/auth/youtube.readonly"
+    ],
+    "rateLimit": {
+      "quotaPerDay": 10000,
+      "uploadsPerDay": 100
+    }
+  }
+}

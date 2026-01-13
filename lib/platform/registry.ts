@@ -44,7 +44,7 @@ export const platformRegistry: Record<PlatformId, PlatformRegistryEntry> = {
     displayName: 'TikTok',
     icon: 'Music2',
     color: '#00F2EA',
-    implemented: false,
+    implemented: true,
   },
   youtube: {
     id: 'youtube',

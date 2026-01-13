@@ -1,5 +1,5 @@
 import { type NextRequest } from 'next/server';
-import { createRouteClient, jsonWithCookies } from '@/lib/supabase/route';
+import { createRouteClient, createServiceRoleClient, jsonWithCookies } from '@/lib/supabase/route';
 import { z } from 'zod';
 import type { PlatformId } from '@/lib/database.types';
 
@@ -26,12 +26,15 @@ export async function POST(
     return jsonWithCookies(response, { error: 'Unauthorized' }, { status: 401 });
   }
 
+  // Use service role client to bypass RLS on connected_accounts
+  const adminClient = createServiceRoleClient();
+
   try {
     const body = await request.json().catch(() => ({}));
     const parsed = DisconnectSchema.safeParse(body);
     const accountId = parsed.success ? parsed.data.accountId : undefined;
 
-    let query = supabase
+    let query = adminClient
       .from('connected_accounts')
       .delete()
       .eq('user_id', user.id)

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import {
   Instagram,
   Facebook,
@@ -13,7 +12,6 @@ import {
   AlertCircle,
   Loader2,
   Plus,
-  X,
   Shield,
   Globe,
   Lock,
@@ -21,11 +19,10 @@ import {
   ChevronUp,
   Trash2,
   Star,
-  ExternalLink,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { ConnectionStatus, PlatformId } from '@/lib/database.types';
-import { platformRegistry, PLATFORM_IDS, IMPLEMENTED_PLATFORM_IDS } from '@/lib/platform/registry';
+import { platformRegistry, PLATFORM_IDS } from '@/lib/platform/registry';
 import { Button } from '@/components/ui/button';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -169,163 +166,35 @@ function ConnectionsContent() {
       )}
 
       <div className="space-y-6 animate-enter">
-        {/* Available Platforms */}
+        {/* Meta Platforms (Facebook & Instagram) */}
         <section>
           <h2 className="text-xs font-bold text-surface-muted uppercase tracking-widest mb-4 flex items-center gap-2">
             <Globe className="w-4 h-4" /> Available Platforms
           </h2>
           
           <div className="space-y-3">
-            {IMPLEMENTED_PLATFORM_IDS.map((platformId) => {
-              const entry = platformRegistry[platformId];
-              const connection = connections.find((c) => c.platform === platformId);
-              const Icon = iconMap[entry.icon] || Facebook;
-              const isConnected = connection?.connected;
-              const accounts = connection?.accounts || [];
-              const isExpanded = expandedPlatform === platformId;
+            {/* Unified Meta Connection Card */}
+            <MetaConnectionCard
+              connections={connections}
+              expandedPlatform={expandedPlatform}
+              actionLoading={actionLoading}
+              onConnect={() => handleConnect('facebook')}
+              onDisconnect={handleDisconnect}
+              onSetPrimary={handleSetPrimary}
+              onToggleExpanded={toggleExpanded}
+            />
 
-              return (
-                <div 
-                  key={platformId}
-                  className={clsx(
-                    "rounded-xl border transition-all overflow-hidden",
-                    isConnected 
-                      ? "bg-surface-card/50 border-surface-border" 
-                      : "bg-surface-card/20 border-surface-border/50 hover:border-surface-muted"
-                  )}
-                >
-                  {/* Platform Row */}
-                  <div className="p-4 flex items-center gap-4">
-                    <div 
-                      className={clsx(
-                        "w-12 h-12 rounded-xl flex items-center justify-center transition-all shrink-0",
-                        isConnected ? "shadow-md" : "opacity-60 grayscale"
-                      )}
-                      style={{ backgroundColor: isConnected ? entry.color : '#374151' }}
-                    >
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-white">{entry.displayName}</h3>
-                        {isConnected && (
-                          <span className="px-1.5 py-0.5 rounded bg-brand-accent/10 text-brand-accent text-[10px] font-bold uppercase tracking-wider border border-brand-accent/20 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-                            Active
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-surface-muted mt-0.5">
-                        {isConnected 
-                          ? `${accounts.length} account${accounts.length !== 1 ? 's' : ''} connected`
-                          : "Not connected"}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {!isConnected ? (
-                        <Button 
-                          onClick={() => handleConnect(platformId)}
-                          size="sm"
-                          className="btn-primary h-9 px-4 text-xs"
-                        >
-                          <Plus className="w-4 h-4 mr-1.5" />
-                          Connect
-                        </Button>
-                      ) : (
-                        <>
-                          <Button
-                            onClick={() => handleConnect(platformId)}
-                            size="sm"
-                            variant="ghost"
-                            className="h-9 px-3 text-xs text-surface-muted hover:text-white"
-                          >
-                            <Plus className="w-4 h-4 mr-1.5" />
-                            Add
-                          </Button>
-                          <button
-                            onClick={() => toggleExpanded(platformId)}
-                            className={clsx(
-                              "h-9 px-3 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors border",
-                              isExpanded 
-                                ? "bg-brand-primary/10 border-brand-primary/30 text-brand-primary" 
-                                : "bg-surface-card border-surface-border text-surface-muted hover:text-white hover:border-surface-muted"
-                            )}
-                          >
-                            Manage
-                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Expanded Account List */}
-                  {isConnected && isExpanded && accounts.length > 0 && (
-                    <div className="border-t border-surface-border bg-surface/40 px-4 py-3 space-y-2 animate-enter">
-                      {accounts.map((account) => (
-                        <div 
-                          key={account.id} 
-                          className="flex items-center justify-between p-3 rounded-lg bg-surface-card/50 border border-surface-border/50"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div 
-                              className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                              style={{ backgroundColor: entry.color }}
-                            >
-                              {account.name.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <p className="text-sm font-medium text-white">{account.name}</p>
-                                {account.isPrimary && (
-                                  <span className="text-[10px] font-bold bg-brand-primary/20 text-brand-primary px-1.5 py-0.5 rounded flex items-center gap-1">
-                                    <Star className="w-2.5 h-2.5 fill-brand-primary" />
-                                    PRIMARY
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[10px] text-surface-muted font-mono mt-0.5">
-                                ID: {account.externalId}
-                              </p>
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-2">
-                            {!account.isPrimary && accounts.length > 1 && (
-                              <button
-                                onClick={() => handleSetPrimary(platformId, account.id)}
-                                disabled={actionLoading === account.id}
-                                className="text-xs font-medium text-surface-muted hover:text-brand-primary px-3 py-1.5 rounded-lg hover:bg-brand-primary/10 transition-colors"
-                              >
-                                {actionLoading === account.id ? (
-                                  <Loader2 className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  'Make Primary'
-                                )}
-                              </button>
-                            )}
-                            <button 
-                              onClick={() => handleDisconnect(platformId, account.id)}
-                              disabled={actionLoading === account.id}
-                              className="p-2 rounded-lg text-surface-muted hover:text-brand-error hover:bg-brand-error/10 transition-colors"
-                              title="Remove account"
-                            >
-                              {actionLoading === account.id ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                              ) : (
-                                <Trash2 className="w-4 h-4" />
-                              )}
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {/* TikTok Connection Card */}
+            <PlatformConnectionCard
+              platform="tiktok"
+              connections={connections}
+              expandedPlatform={expandedPlatform}
+              actionLoading={actionLoading}
+              onConnect={() => handleConnect('tiktok')}
+              onDisconnect={handleDisconnect}
+              onSetPrimary={handleSetPrimary}
+              onToggleExpanded={toggleExpanded}
+            />
           </div>
         </section>
 
@@ -356,6 +225,375 @@ function ConnectionsContent() {
             })}
           </div>
         </section>
+      </div>
+    </div>
+  );
+}
+
+// Unified Meta (Facebook + Instagram) connection card
+function MetaConnectionCard({
+  connections,
+  expandedPlatform,
+  actionLoading,
+  onConnect,
+  onDisconnect,
+  onSetPrimary,
+  onToggleExpanded,
+}: {
+  connections: ConnectionStatus[];
+  expandedPlatform: PlatformId | null;
+  actionLoading: string | null;
+  onConnect: () => void;
+  onDisconnect: (platform: PlatformId, accountId?: string) => void;
+  onSetPrimary: (platform: PlatformId, accountId: string) => void;
+  onToggleExpanded: (platform: PlatformId) => void;
+}) {
+  const fbConnection = connections.find((c) => c.platform === 'facebook');
+  const igConnection = connections.find((c) => c.platform === 'instagram');
+  
+  const fbAccounts = fbConnection?.accounts || [];
+  const igAccounts = igConnection?.accounts || [];
+  const totalAccounts = fbAccounts.length + igAccounts.length;
+  const isConnected = fbConnection?.connected || igConnection?.connected;
+  const isExpanded = expandedPlatform === 'facebook' || expandedPlatform === 'instagram';
+
+  return (
+    <div 
+      className={clsx(
+        "rounded-xl border transition-all overflow-hidden",
+        isConnected 
+          ? "bg-surface-card/50 border-surface-border" 
+          : "bg-surface-card/20 border-surface-border/50 hover:border-surface-muted"
+      )}
+    >
+      {/* Main Row */}
+      <div className="p-4 flex items-center gap-4">
+        {/* Dual Icon */}
+        <div className="relative shrink-0">
+          <div 
+            className={clsx(
+              "w-12 h-12 rounded-xl flex items-center justify-center transition-all",
+              isConnected ? "shadow-md" : "opacity-60 grayscale"
+            )}
+            style={{ backgroundColor: isConnected ? '#1877F2' : '#374151' }}
+          >
+            <Facebook className="w-6 h-6 text-white" />
+          </div>
+          <div 
+            className={clsx(
+              "absolute -bottom-1 -right-1 w-6 h-6 rounded-lg flex items-center justify-center border-2 border-surface transition-all",
+              isConnected ? "" : "opacity-60 grayscale"
+            )}
+            style={{ backgroundColor: isConnected ? '#E1306C' : '#374151' }}
+          >
+            <Instagram className="w-3.5 h-3.5 text-white" />
+          </div>
+        </div>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-bold text-white">Facebook & Instagram</h3>
+            {isConnected && (
+              <span className="px-1.5 py-0.5 rounded bg-brand-accent/10 text-brand-accent text-[10px] font-bold uppercase tracking-wider border border-brand-accent/20 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                Active
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-surface-muted mt-0.5">
+            {isConnected 
+              ? `${totalAccounts} account${totalAccounts !== 1 ? 's' : ''} connected`
+              : "Connect via Meta to publish to both platforms"}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {!isConnected ? (
+            <Button 
+              onClick={onConnect}
+              size="sm"
+              className="btn-primary h-9 px-4 text-xs"
+            >
+              <Plus className="w-4 h-4 mr-1.5" />
+              Connect
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={onConnect}
+                size="sm"
+                variant="ghost"
+                className="h-9 px-3 text-xs text-surface-muted hover:text-white"
+              >
+                <Plus className="w-4 h-4 mr-1.5" />
+                Add
+              </Button>
+              <button
+                onClick={() => onToggleExpanded('facebook')}
+                className={clsx(
+                  "h-9 px-3 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors border",
+                  isExpanded 
+                    ? "bg-brand-primary/10 border-brand-primary/30 text-brand-primary" 
+                    : "bg-surface-card border-surface-border text-surface-muted hover:text-white hover:border-surface-muted"
+                )}
+              >
+                Manage
+                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Expanded Account List */}
+      {isConnected && isExpanded && (
+        <div className="border-t border-surface-border bg-surface/40 px-4 py-3 space-y-4 animate-enter">
+          {/* Instagram Accounts */}
+          {igAccounts.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Instagram className="w-4 h-4 text-[#E1306C]" />
+                <span className="text-xs font-bold text-surface-muted uppercase tracking-wider">Instagram</span>
+              </div>
+              <div className="space-y-2">
+                {igAccounts.map((account) => (
+                  <AccountRow
+                    key={account.id}
+                    account={account}
+                    platform="instagram"
+                    color="#E1306C"
+                    accounts={igAccounts}
+                    actionLoading={actionLoading}
+                    onSetPrimary={onSetPrimary}
+                    onDisconnect={onDisconnect}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Facebook Pages */}
+          {fbAccounts.length > 0 && (
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Facebook className="w-4 h-4 text-[#1877F2]" />
+                <span className="text-xs font-bold text-surface-muted uppercase tracking-wider">Facebook Pages</span>
+              </div>
+              <div className="space-y-2">
+                {fbAccounts.map((account) => (
+                  <AccountRow
+                    key={account.id}
+                    account={account}
+                    platform="facebook"
+                    color="#1877F2"
+                    accounts={fbAccounts}
+                    actionLoading={actionLoading}
+                    onSetPrimary={onSetPrimary}
+                    onDisconnect={onDisconnect}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Generic platform connection card (TikTok, LinkedIn, YouTube, etc.)
+function PlatformConnectionCard({
+  platform,
+  connections,
+  expandedPlatform,
+  actionLoading,
+  onConnect,
+  onDisconnect,
+  onSetPrimary,
+  onToggleExpanded,
+}: {
+  platform: PlatformId;
+  connections: ConnectionStatus[];
+  expandedPlatform: PlatformId | null;
+  actionLoading: string | null;
+  onConnect: () => void;
+  onDisconnect: (platform: PlatformId, accountId?: string) => void;
+  onSetPrimary: (platform: PlatformId, accountId: string) => void;
+  onToggleExpanded: (platform: PlatformId) => void;
+}) {
+  const entry = platformRegistry[platform];
+  const connection = connections.find((c) => c.platform === platform);
+  const accounts = connection?.accounts || [];
+  const isConnected = connection?.connected;
+  const isExpanded = expandedPlatform === platform;
+  const Icon = iconMap[entry.icon] || Facebook;
+
+  return (
+    <div 
+      className={clsx(
+        "rounded-xl border transition-all overflow-hidden",
+        isConnected 
+          ? "bg-surface-card/50 border-surface-border" 
+          : "bg-surface-card/20 border-surface-border/50 hover:border-surface-muted"
+      )}
+    >
+      {/* Main Row */}
+      <div className="p-4 flex items-center gap-4">
+        <div 
+          className={clsx(
+            "w-12 h-12 rounded-xl flex items-center justify-center transition-all shrink-0",
+            isConnected ? "shadow-md" : "opacity-60 grayscale"
+          )}
+          style={{ backgroundColor: isConnected ? entry.color : '#374151' }}
+        >
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+        
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-bold text-white">{entry.displayName}</h3>
+            {isConnected && (
+              <span className="px-1.5 py-0.5 rounded bg-brand-accent/10 text-brand-accent text-[10px] font-bold uppercase tracking-wider border border-brand-accent/20 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                Active
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-surface-muted mt-0.5">
+            {isConnected 
+              ? `${accounts.length} account${accounts.length !== 1 ? 's' : ''} connected`
+              : `Connect your ${entry.displayName} account`}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {!isConnected ? (
+            <Button 
+              onClick={onConnect}
+              size="sm"
+              className="btn-primary h-9 px-4 text-xs"
+            >
+              <Plus className="w-4 h-4 mr-1.5" />
+              Connect
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={onConnect}
+                size="sm"
+                variant="ghost"
+                className="h-9 px-3 text-xs text-surface-muted hover:text-white"
+              >
+                <Plus className="w-4 h-4 mr-1.5" />
+                Add
+              </Button>
+              <button
+                onClick={() => onToggleExpanded(platform)}
+                className={clsx(
+                  "h-9 px-3 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-colors border",
+                  isExpanded 
+                    ? "bg-brand-primary/10 border-brand-primary/30 text-brand-primary" 
+                    : "bg-surface-card border-surface-border text-surface-muted hover:text-white hover:border-surface-muted"
+                )}
+              >
+                Manage
+                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Expanded Account List */}
+      {isConnected && isExpanded && accounts.length > 0 && (
+        <div className="border-t border-surface-border bg-surface/40 px-4 py-3 space-y-2 animate-enter">
+          {accounts.map((account) => (
+            <AccountRow
+              key={account.id}
+              account={account}
+              platform={platform}
+              color={entry.color}
+              accounts={accounts}
+              actionLoading={actionLoading}
+              onSetPrimary={onSetPrimary}
+              onDisconnect={onDisconnect}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Reusable account row component
+function AccountRow({
+  account,
+  platform,
+  color,
+  accounts,
+  actionLoading,
+  onSetPrimary,
+  onDisconnect,
+}: {
+  account: { id: string; name: string; externalId: string; isPrimary: boolean };
+  platform: PlatformId;
+  color: string;
+  accounts: Array<{ id: string }>;
+  actionLoading: string | null;
+  onSetPrimary: (platform: PlatformId, accountId: string) => void;
+  onDisconnect: (platform: PlatformId, accountId?: string) => void;
+}) {
+  return (
+    <div className="flex items-center justify-between p-3 rounded-lg bg-surface-card/50 border border-surface-border/50">
+      <div className="flex items-center gap-3">
+        <div 
+          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white"
+          style={{ backgroundColor: color }}
+        >
+          {account.name.charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <div className="flex items-center gap-2">
+            <p className="text-sm font-medium text-white">{account.name}</p>
+            {account.isPrimary && (
+              <span className="text-[10px] font-bold bg-brand-primary/20 text-brand-primary px-1.5 py-0.5 rounded flex items-center gap-1">
+                <Star className="w-2.5 h-2.5 fill-brand-primary" />
+                PRIMARY
+              </span>
+            )}
+          </div>
+          <p className="text-[10px] text-surface-muted font-mono mt-0.5">
+            ID: {account.externalId}
+          </p>
+        </div>
+      </div>
+      
+      <div className="flex items-center gap-2">
+        {!account.isPrimary && accounts.length > 1 && (
+          <button
+            onClick={() => onSetPrimary(platform, account.id)}
+            disabled={actionLoading === account.id}
+            className="text-xs font-medium text-surface-muted hover:text-brand-primary px-3 py-1.5 rounded-lg hover:bg-brand-primary/10 transition-colors"
+          >
+            {actionLoading === account.id ? (
+              <Loader2 className="w-3 h-3 animate-spin" />
+            ) : (
+              'Make Primary'
+            )}
+          </button>
+        )}
+        <button 
+          onClick={() => onDisconnect(platform, account.id)}
+          disabled={actionLoading === account.id}
+          className="p-2 rounded-lg text-surface-muted hover:text-brand-error hover:bg-brand-error/10 transition-colors"
+          title="Remove account"
+        >
+          {actionLoading === account.id ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Trash2 className="w-4 h-4" />
+          )}
+        </button>
       </div>
     </div>
   );

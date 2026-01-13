@@ -34,7 +34,11 @@ export async function GET(request: NextRequest) {
         caption_final,
         scheduled_for,
         published_at,
-        last_error
+        last_error,
+        external_post_id,
+        external_url,
+        latest_analytics,
+        last_analytics_sync
       )
     `
     )

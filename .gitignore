@@ -42,3 +42,13 @@ mcp.json
 *.secret
 *.key
 
+# Security - never commit these
+.env.production
+*.pem
+*.p12
+secrets/
+credentials.json# Editor directories
+.cursor/
+.history/# Debug logs
+debug.log
+error.log

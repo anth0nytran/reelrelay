@@ -1,0 +1,49 @@
+{
+  "platform": "tiktok",
+  "displayName": "TikTok",
+  "caption": {
+    "maxChars": 2200,
+    "recommendedChars": 150,
+    "supportsHashtags": true,
+    "recommendedHashtagCount": 5,
+    "maxHashtags": 10,
+    "supportsMentions": true,
+    "supportsEmojis": true
+  },
+  "video": {
+    "supportedFormats": ["mp4", "webm", "mov"],
+    "minDuration": 3,
+    "maxDuration": 180,
+    "maxFileSize": "287MB",
+    "recommendedAspectRatios": ["9:16", "1:1"],
+    "minResolution": "720x1280",
+    "maxResolution": "1080x1920",
+    "frameRateRange": [24, 60],
+    "codecsSupported": ["H.264", "HEVC"]
+  },
+  "tone": {
+    "style": "casual, trendy, authentic, entertaining",
+    "guidance": "Hook viewers in first 3 seconds, use trending references, be relatable and genuine, embrace humor",
+    "avoidPatterns": ["overly corporate", "salesy language", "long intros", "formal tone"],
+    "hashtagPlacement": "end of caption"
+  },
+  "features": {
+    "supportsDirectPost": true,
+    "supportsInboxPost": true,
+    "supportsDuet": false,
+    "supportsStitch": false,
+    "requiresCreatorAccount": false
+  },
+  "api": {
+    "baseUrl": "https://open.tiktokapis.com/v2",
+    "authUrl": "https://www.tiktok.com/v2/auth/authorize",
+    "tokenUrl": "https://open.tiktokapis.com/v2/oauth/token",
+    "tokenExpiryHours": 24,
+    "refreshTokenExpiryDays": 365,
+    "scopes": ["user.info.basic", "video.upload", "video.publish"],
+    "rateLimit": {
+      "requestsPerMinute": 100,
+      "uploadsPerDay": 50
+    }
+  }
+}

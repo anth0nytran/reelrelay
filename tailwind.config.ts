@@ -30,11 +30,14 @@ const config: Config = {
       borderRadius: {
         'xl': '0.75rem',
         '2xl': '1rem',
+        '3xl': '1.5rem',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
         'slide-up': 'slideUp 0.5s ease-out',
         'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+        'scroll': 'scroll 40s linear infinite',
+        'scan': 'scan 3s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -49,10 +52,17 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
         },
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        scan: {
+          '0%': { top: '0%' },
+          '100%': { top: '100%' },
+        },
       },
     },
   },
   plugins: [],
 };
 export default config;
-

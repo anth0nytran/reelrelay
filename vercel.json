@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/scheduler/run",
+      "schedule": "*/5 * * * *"
+    }
+  ],
+  "functions": {
+    "app/api/scheduler/run/route.ts": {
+      "maxDuration": 300
+    },
+    "app/api/posts/[id]/publishNow/route.ts": {
+      "maxDuration": 300
+    }
+  }
+}

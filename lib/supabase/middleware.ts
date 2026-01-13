@@ -64,6 +64,7 @@ export async function updateSession(request: NextRequest) {
   // Protect /app routes - redirect to login if not authenticated
   const isAppRoute = request.nextUrl.pathname.startsWith('/app');
   const isLoginPage = request.nextUrl.pathname === '/login';
+  const isBillingPage = request.nextUrl.pathname === '/app/billing';
 
   if (isAppRoute && !user) {
     const loginUrl = new URL('/login', request.url);
@@ -74,6 +75,36 @@ export async function updateSession(request: NextRequest) {
   // Redirect authenticated users away from login
   if (isLoginPage && user) {
     return NextResponse.redirect(new URL('/app/posts', request.url));
+  }
+
+  // Check billing status for /app routes (except billing page itself)
+  if (isAppRoute && user && !isBillingPage) {
+    const { data: billing, error: billingError } = await supabase
+      .from('billing_accounts')
+      .select('status, trial_ends_at')
+      .eq('user_id', user.id)
+      .single();
+
+    // If no billing account exists, allow access (the trigger should create one on signup)
+    // This prevents new users from being locked out if the trigger fails
+    if (billingError || !billing) {
+      // Log but don't block - billing account will be created on first checkout attempt
+      console.log('No billing account for user, allowing access:', user.id);
+      return response;
+    }
+
+    const isActive = billing.status === 'active';
+    const isTrialing = billing.status === 'trialing';
+    const trialEndsAt = billing.trial_ends_at ? new Date(billing.trial_ends_at) : null;
+    const now = new Date();
+    const isTrialExpired = trialEndsAt ? trialEndsAt < now : false;
+
+    // If not active and (not trialing OR trial expired), redirect to billing
+    if (!isActive && (!isTrialing || isTrialExpired)) {
+      const billingUrl = new URL('/app/billing', request.url);
+      billingUrl.searchParams.set('reason', 'trial_expired');
+      return NextResponse.redirect(billingUrl);
+    }
   }
 
   return response;

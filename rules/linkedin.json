@@ -1,0 +1,50 @@
+{
+  "platform": "linkedin",
+  "displayName": "LinkedIn",
+  "caption": {
+    "maxChars": 3000,
+    "recommendedChars": 200,
+    "supportsHashtags": true,
+    "recommendedHashtagCount": 3,
+    "maxHashtags": 5,
+    "supportsMentions": true,
+    "supportsEmojis": true,
+    "supportsLinks": true
+  },
+  "video": {
+    "supportedFormats": ["mp4", "mov", "avi"],
+    "minDuration": 3,
+    "maxDuration": 600,
+    "maxFileSize": "5GB",
+    "recommendedAspectRatios": ["16:9", "1:1", "9:16"],
+    "minResolution": "256x144",
+    "maxResolution": "4096x2304",
+    "frameRateRange": [24, 60],
+    "codecsSupported": ["H.264", "VP8", "VP9"]
+  },
+  "tone": {
+    "style": "professional, insightful, thought-leadership",
+    "guidance": "Lead with value, share expertise, be authentic but professional, encourage discussion, tag relevant connections",
+    "avoidPatterns": ["overly casual", "clickbait", "controversial politics", "hard sales pitch"],
+    "hashtagPlacement": "end of post, separate line"
+  },
+  "features": {
+    "supportsNativeVideo": true,
+    "supportsArticles": false,
+    "supportsPolls": false,
+    "requiresCompanyPage": false,
+    "supportsPersonalProfile": true
+  },
+  "api": {
+    "baseUrl": "https://api.linkedin.com/v2",
+    "authUrl": "https://www.linkedin.com/oauth/v2/authorization",
+    "tokenUrl": "https://www.linkedin.com/oauth/v2/accessToken",
+    "tokenExpiryDays": 60,
+    "refreshTokenExpiryDays": 365,
+    "scopes": ["openid", "profile", "w_member_social"],
+    "rateLimit": {
+      "requestsPerDay": 100,
+      "postsPerDay": 20
+    }
+  }
+}

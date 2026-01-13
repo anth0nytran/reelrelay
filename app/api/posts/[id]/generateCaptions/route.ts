@@ -158,8 +158,9 @@ ${JSON.stringify(expectedJson)}`;
     await supabase.from('platform_posts').upsert({
       post_id: post.id,
       platform,
-      status: 'scheduled',
+      status: 'draft',
       caption_selected: captions[platform]?.captionOptions?.[0] || '',
+      caption_final: captions[platform]?.captionOptions?.[0] || '',
     }, { onConflict: 'post_id,platform' });
   }
 

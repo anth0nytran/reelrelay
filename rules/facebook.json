@@ -1,0 +1,47 @@
+{
+  "platform": "facebook",
+  "displayName": "Facebook",
+  "caption": {
+    "maxChars": 63206,
+    "recommendedChars": 250,
+    "supportsHashtags": true,
+    "recommendedHashtagCount": 3,
+    "maxHashtags": 10,
+    "supportsMentions": true,
+    "supportsEmojis": true,
+    "supportsLinks": true
+  },
+  "video": {
+    "supportedFormats": ["mp4", "mov", "avi", "wmv"],
+    "minDuration": 1,
+    "maxDuration": 240,
+    "maxFileSize": "10GB",
+    "recommendedAspectRatios": ["16:9", "9:16", "1:1", "4:5"],
+    "minResolution": "720x720",
+    "maxResolution": "4096x2160",
+    "frameRateRange": [24, 60],
+    "codecsSupported": ["H.264", "HEVC", "VP8"]
+  },
+  "tone": {
+    "style": "conversational, community-focused, informative",
+    "guidance": "Encourage engagement with questions, be personable, include clear CTA, good for longer-form storytelling",
+    "avoidPatterns": ["engagement bait", "misleading headlines", "excessive tagging"],
+    "hashtagPlacement": "inline or end of post"
+  },
+  "features": {
+    "supportsReels": true,
+    "supportsStories": false,
+    "supportsFeed": true,
+    "supportsLive": false,
+    "requiresPage": true
+  },
+  "api": {
+    "baseUrl": "https://graph.facebook.com/v18.0",
+    "authProvider": "meta",
+    "tokenExpiryDays": 60,
+    "rateLimit": {
+      "requestsPerHour": 200,
+      "postsPerDay": 50
+    }
+  }
+}

@@ -297,10 +297,29 @@ export default function NewPostPage() {
   async function handlePublish() {
     if (!postId) return;
     setActionLoading(true);
+    setError(null);
     try {
       if (publishMode === 'now') {
         const res = await fetch(`/api/posts/${postId}/publishNow`, { method: 'POST' });
-        if (!res.ok) throw new Error('Failed to publish');
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to publish');
+        }
+        
+        // Check the actual publish status
+        if (data.status === 'failed') {
+          // Redirect to post detail page to show the error
+          router.push(`/app/posts/${postId}`);
+          return;
+        } else if (data.status === 'partially_published') {
+          // Some platforms succeeded, redirect to see details
+          router.push(`/app/posts/${postId}`);
+          return;
+        }
+        
+        // All succeeded
+        router.push('/app/posts');
       } else {
         const scheduledFor = new Date(`${scheduledDate}T${scheduledTime}`).toISOString();
         const res = await fetch(`/api/posts/${postId}/schedule`, {
@@ -308,9 +327,14 @@ export default function NewPostPage() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ scheduledFor, timezone }),
         });
-        if (!res.ok) throw new Error('Failed to schedule');
+        const data = await res.json();
+        
+        if (!res.ok) {
+          throw new Error(data.error || 'Failed to schedule');
+        }
+        
+        router.push('/app/queue');
       }
-      router.push(publishMode === 'now' ? '/app/posts' : '/app/queue');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to publish');
     } finally {

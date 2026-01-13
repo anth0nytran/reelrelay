@@ -1,0 +1,47 @@
+{
+  "platform": "instagram",
+  "displayName": "Instagram",
+  "caption": {
+    "maxChars": 2200,
+    "recommendedChars": 150,
+    "supportsHashtags": true,
+    "recommendedHashtagCount": 5,
+    "maxHashtags": 30,
+    "supportsMentions": true,
+    "supportsEmojis": true
+  },
+  "video": {
+    "supportedFormats": ["mp4", "mov"],
+    "minDuration": 3,
+    "maxDuration": 90,
+    "maxFileSize": "1GB",
+    "recommendedAspectRatios": ["9:16", "4:5", "1:1"],
+    "minResolution": "720x1280",
+    "maxResolution": "1080x1920",
+    "frameRateRange": [23, 60],
+    "codecsSupported": ["H.264", "HEVC"]
+  },
+  "tone": {
+    "style": "visually-driven, authentic, lifestyle-focused",
+    "guidance": "Focus on visual storytelling, use line breaks for readability, front-load important info, include call-to-action",
+    "avoidPatterns": ["clickbait", "excessive caps", "spam-like repetition"],
+    "hashtagPlacement": "end of caption or first comment"
+  },
+  "features": {
+    "supportsReels": true,
+    "supportsStories": false,
+    "supportsFeed": true,
+    "supportsCarousel": false,
+    "requiresBusinessAccount": true,
+    "requiresFacebookPage": true
+  },
+  "api": {
+    "baseUrl": "https://graph.facebook.com/v18.0",
+    "authProvider": "meta",
+    "tokenExpiryDays": 60,
+    "rateLimit": {
+      "requestsPerHour": 200,
+      "postsPerDay": 25
+    }
+  }
+}

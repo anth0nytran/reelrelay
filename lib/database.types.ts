@@ -14,10 +14,12 @@ export type PostStatus =
   | 'queued'
   | 'publishing'
   | 'published'
+  | 'partially_published'
   | 'failed'
   | 'canceled';
 
 export type PlatformPostStatus =
+  | 'draft'
   | 'scheduled'
   | 'queued'
   | 'publishing'
